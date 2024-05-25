@@ -22,17 +22,9 @@ def connectToDatabase():
     except Error as err:
         print(f"Fehler bei der Verbindung zur Datenbank: {err}")
 
-def selectLoginadata():
+def selectLoginadata(email, password):
     try:
-        selectLoginadatastring = "SELECT * FROM students WHERE studentEmail = %s"
-        email = 'KoppM.06@lfsm.de'
-        
-        klausurmastercursor.execute(selectLoginadatastring, (email,))
-        results = klausurmastercursor.fetchall()
-
-        for row in results:
-            print(row)
-
+        print(email, password)
     except Error as err:
         print(f"Fehler bei der Abfrage: {err}")
 
@@ -50,6 +42,6 @@ def closeConnection():
 
 # ScriptInitialisierung
 if __name__ == "__main__":
-    connectToDatabase()
+    #connectToDatabase()
     if klausurmasterdatabase and klausurmastercursor:
         print ("Verbindung erfolgreich")
