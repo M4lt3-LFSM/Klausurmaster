@@ -2,8 +2,10 @@ import mysql.connector
 from mysql.connector import Error
 import sys
 import os
+import hashlib
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import Loadingpage
+import LoginPage
 
 
 # Globale Variablen für Datenbankverbindung und Cursor
@@ -29,7 +31,56 @@ def connectToDatabase():
 
 def selectLoginadata(email, password):
     try:
-        print(email, password)
+
+        pass
+
+        result = "student"
+        
+        sql_query = "SELECT studentEmail, studentPassword from students WHERE studentEmail = %s AND studentPassword = %s"
+
+        #TODO: Remove comments from SQl-Statements
+
+        #klausurmastercursor.execute(sql_query, (email,), hashlib.sha256(password.encode()).hexdigest())
+
+        #result = klausurmastercursor.fetchall()
+
+        if result is None:
+            sql_query = "SELECT teacherEmail, teacherPassword from teachers WHERE teacherEmail = %s AND teacherPassword = %s"
+
+            #TODO: Remove comments from SQl-Statements
+
+            #klausurmastercursor.execute(sql_query, (email,), hashlib.sha256(password.encode()).hexdigest())
+
+            #result = klausurmastercursor.fetchall()
+
+            if result is None:
+                sql_query = "SELECT adminEmail, adminPassword from admins WHERE adminEmail = %s AND adminPassword = %s"
+
+                #TODO: Remove comments from SQl-Statements
+
+                #klausurmastercursor.execute(sql_query, (email,), hashlib.sha256(password.encode()).hexdigest())
+
+                #result = klausurmastercursor.fetchall()
+
+                if result is None:
+
+                    print("Error in LoginData")
+                
+                else: result = "admin"
+
+            else: result = "teacher"
+
+        else: result = "student"
+
+        if (result == "student"):
+            Loadingpage.loadLoadingPage(LoginPage)
+        elif(result == "teacher"):
+            pass
+        elif(result == "admin"):
+            pass
+
+        
+
     except Error as err:
         print(f"Fehler bei der Abfrage: {err}")
 
@@ -46,7 +97,8 @@ def closeConnection():
         print(f"Fehler beim Schließen der Verbindung: {err}")
 
 # ScriptInitialisierung
-if __name__ == "__main__":
+def init_Database():
+    #TODO: Remove comments from SQl-Statements
     #connectToDatabase()
     if klausurmasterdatabase and klausurmastercursor:
         print ("Verbindung erfolgreich")

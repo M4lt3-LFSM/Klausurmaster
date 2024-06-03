@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
 import Database.DatabaseConnector as DatabaseConnector
+import Loadingpage
 
 class LoginPage:
     def __init__(self, window):
@@ -82,7 +83,7 @@ class LoginPage:
 
         # ============================login button================================
         self.login = Button(self.lgn_button_label, text='LOGIN', font=("yu gothic ui", 13, "bold"), width=25, bd=0,
-                            bg='#3047ff', cursor='hand2', activebackground='#3047ff', fg='white', command=DatabaseConnector.selectLoginadata(self.username_entry, self.password_entry))
+                            bg='#3047ff', cursor='hand2', activebackground='#3047ff', fg='white', command=self.login_action)
         self.login.place(relx=0.5, rely=0.5, anchor='center')
 
         # ========= show/hide password ==================================================================
@@ -92,6 +93,11 @@ class LoginPage:
         self.show_button = Button(self.lgn_frame, image=self.show_image, command=self.show, relief=FLAT,
                                   activebackground="white", borderwidth=0, background="white", cursor="hand2")
         self.show_button.grid(row=6, column=1, sticky='e', padx=(0, 10))
+
+    def login_action(self):
+        email = self.username_entry.get()
+        password = self.password_entry.get()
+        DatabaseConnector.selectLoginadata(email, password)
 
     def update_bg_image(self, event=None):
         self.bg_frame_resized = self.bg_frame.resize((self.window.winfo_width(), self.window.winfo_height()), Image.LANCZOS)
@@ -137,4 +143,5 @@ def page():
     window.mainloop()
 
 if __name__ == '__main__':
+    DatabaseConnector.init_Database()
     page()
