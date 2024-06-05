@@ -34,7 +34,7 @@ class LoginPage:
         self.heading.grid(row=0, column=0, columnspan=2, pady=(30, 10), sticky='n')
 
         # ========================================================================
-        # ============ Left Side Image ================================================
+        # ============ Left Side Image ===========================================
         # ========================================================================
         self.side_image = Image.open('Application\\Pictures\\vector.png')
         self.side_image_label = Label(self.lgn_frame, bg='#040405')
@@ -97,7 +97,7 @@ class LoginPage:
     def login_action(self):
         email = self.username_entry.get()
         password = self.password_entry.get()
-        DatabaseConnector.selectLoginadata(email, password)
+        DatabaseConnector.selectLoginadata(email, password, self.window)
 
     def update_bg_image(self, event=None):
         self.bg_frame_resized = self.bg_frame.resize((self.window.winfo_width(), self.window.winfo_height()), Image.LANCZOS)
