@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import ImageTk, Image
 import Database.DatabaseConnector as DatabaseConnector
 import Loadingpage
+import os
+import json
 
 class LoginPage:
     def __init__(self, window):
@@ -141,6 +143,27 @@ def page():
     window = Tk()
     login_page = LoginPage(window)
     window.mainloop()
+
+def save_parameters_to_json(userEmail, userPassword):
+    # Bestimmen des AppData-Verzeichnisses
+    appdata_dir = os.getenv('APPDATA')
+    if not appdata_dir:
+        raise EnvironmentError("AppData directory not found.")
+    
+    # Pfad zur .json-Datei im AppData-Verzeichnis
+    json_file_path = os.path.join(appdata_dir, 'app_parameters.json')
+    
+    # Daten in ein Dictionary packen
+    data = {
+        'parameter1': userEmail,
+        'parameter2': userPassword
+    }
+    
+    # Schreiben oder Überschreiben der Daten in der .json-Datei
+    with open(json_file_path, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
+
+    print(f"Parameters saved to {json_file_path}")
 
 if __name__ == '__main__':
     DatabaseConnector.init_Database()
